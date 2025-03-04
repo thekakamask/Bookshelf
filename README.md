@@ -2,12 +2,16 @@
 **Bookshelf** is a modern Android application that allows users to search and display a list of books with their images using the Google Books API. The project follows Android development best practices, implementing the MVVM architecture and leveraging tools such as Retrofit, Gson, and Coroutines for efficient network calls and data processing.
 
 ## ✅ **LAST MAJOR UPDATES**
-   - First commit.
+   - Implement dependencies.
+   - Implement application theme and font (Playfair Display and Playfair Display SC).
+   - Create MVVM project structure.
 
 ## ❌ **NEXT UPDATES**
-   - Implement dependencies.
-   - Implement application theme and font.
-   - Create MVVM project structure.
+   - Implement Google Books API with Retrofit.
+   - Configuring the Retrofit dependency with Kotlinx Serialization.
+   - Implement data models.
+   - Setting up the Repository Pattern.
+   - Integrating dependency injection via a container.
 
 ## 📋 **Features**
    - 📚 Display a list of books :

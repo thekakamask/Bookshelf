@@ -1,16 +1,17 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.kotlin.serialization)
 }
 
 android {
     namespace = "com.dcac.bookshelf"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.dcac.bookshelf"
         minSdk = 24
-        targetSdk = 34
+        targetSdk = 35
         versionCode = 1
         versionName = "1.0"
 
@@ -59,6 +60,32 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
+
+    //Enables Jetpack Navigation to be used with Jetpack Compose to manage navigation between screens.
+    implementation(libs.androidx.navigation.compose)
+    //Facilitates integration of ViewModel into Jetpack Compose to manage states and lifecycle.
+    implementation(libs.androidx.lifecycle.viewmodel.compose)
+    //Provides additional Material Design icons for use in the user interface.
+    implementation(libs.androidx.material.icons.extended)
+    // Retrofit
+    implementation(libs.retrofit)
+    //Adds support for Kotlinx serialization to convert JSON responses with Retrofit.
+    implementation(libs.retrofit.kotlinx.serialization)
+    //Provides a powerful and efficient HTTP library to handle network requests.
+    implementation(libs.okhttp)
+    // Provides native serialization and deserialization of Kotlin objects to JSON.
+    implementation(libs.kotlinx.serialization.json)
+    // Integrates the Coil library into Jetpack Compose for optimized image loading and display.
+    implementation(libs.coil.compose)
+    //Allows ConstraintLayout to be used with Jetpack Compose for flexible, high-performance layouts.
+    implementation(libs.constraintlayout.compose)
+    //Makes it easy to integrate Google Fonts directly into Jetpack Compose.
+    implementation(libs.androidx.ui.text.google.fonts)
+    //Provides tools for managing local file and data storage in Android.
+    implementation(libs.androidx.storage)
+    //Adds smooth, declarative animations to enhance the user experience with Jetpack Compose.
+    implementation(libs.compose.animation)
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -66,4 +93,13 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+
+    //Allows the application's main module to be included in Android instrumentation tests.
+    androidTestImplementation(project(":app"))
+    //Provides tools for testing navigation in a Jetpack Compose or classic Android application.
+    androidTestImplementation(libs.androidx.navigation.testing)
+    //Tests intentions (Intents) and interactions between activities with Espresso.
+    androidTestImplementation(libs.androidx.espresso.intents)
+    //Adds utilities for testing coroutine behavior and managing threading in unit tests.
+    testImplementation(libs.kotlinx.coroutines.test)
 }
