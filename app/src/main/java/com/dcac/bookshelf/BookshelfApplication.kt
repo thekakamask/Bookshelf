@@ -6,7 +6,7 @@ import com.dcac.bookshelf.data.DefaultAppContainer
 
 class BookshelfApplication : Application() {
 
-    private lateinit var container: AppContainer
+    lateinit var container: AppContainer
 
     override fun onCreate() {
         super.onCreate()
