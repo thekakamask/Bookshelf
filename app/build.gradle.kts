@@ -75,8 +75,11 @@ dependencies {
     implementation(libs.okhttp)
     // Provides native serialization and deserialization of Kotlin objects to JSON.
     implementation(libs.kotlinx.serialization.json)
+    //Coil Core, used to load images in classic XML Views and for cache management.
+    implementation(libs.coil)
     // Integrates the Coil library into Jetpack Compose for optimized image loading and display.
-    implementation(libs.coil.compose)
+    //implementation(libs.coil.compose)
+    implementation(libs.coilCompose)
     //Allows ConstraintLayout to be used with Jetpack Compose for flexible, high-performance layouts.
     implementation(libs.constraintlayout.compose)
     //Makes it easy to integrate Google Fonts directly into Jetpack Compose.

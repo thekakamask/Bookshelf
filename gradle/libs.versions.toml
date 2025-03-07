@@ -1,5 +1,6 @@
 [versions]
 agp = "8.6.0"
+coil = "2.3.0"
 kotlin = "1.9.0"
 coreKtx = "1.15.0"
 junit = "4.13.2"
@@ -14,7 +15,7 @@ kotlinSerialization = "1.9.0"
 retrofitKotlinxSerializationConverter = "1.0.0"
 okhttp = "4.11.0"
 kotlinxSerializationJson = "1.5.1"
-coilCompose = "2.4.0"
+#coilCompose = "2.4.0"
 constraintlayout = "1.0.1"
 uiTextGoogleFonts = "1.7.6"
 storage = "1.5.0"
@@ -25,6 +26,9 @@ kotlinxCoroutinesTest = "1.6.4"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
+coil = { module = "io.coil-kt:coil", version.ref = "coil" }
+coilCompose = { module = "io.coil-kt:coil-compose", version.ref = "coil" }
+#coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coilCompose" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
@@ -45,7 +49,6 @@ retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit
 retrofit-kotlinx-serialization = { module = "com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter", version.ref = "retrofitKotlinxSerializationConverter" }
 okhttp = { module = "com.squareup.okhttp3:okhttp", version.ref = "okhttp" }
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerializationJson" }
-coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coilCompose" }
 constraintlayout-compose = { module = "androidx.constraintlayout:constraintlayout-compose", version.ref = "constraintlayout" }
 androidx-ui-text-google-fonts = { group = "androidx.compose.ui", name = "ui-text-google-fonts", version.ref = "uiTextGoogleFonts" }
 androidx-storage = { group = "androidx.test.services", name = "storage", version.ref = "storage" }

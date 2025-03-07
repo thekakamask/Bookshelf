@@ -11,20 +11,20 @@ data class AccessInfo(
     val embeddable: Boolean,
     val publicDomain: Boolean,
     val textToSpeechPermission: String,
-    val epub: EpubInfo?,
-    val pdf: PdfInfo?
+    val epub: EpubInfo? = null,
+    val pdf: PdfInfo? = null
 )
 
 @Immutable
 @Serializable
 data class EpubInfo(
     val isAvailable: Boolean,
-    val acsTokenLink: String?
+    val acsTokenLink: String? = null
 )
 
 @Immutable
 @Serializable
 data class PdfInfo(
     val isAvailable: Boolean,
-    val acsTokenLink: String?
+    val acsTokenLink: String? = null
 )

@@ -7,15 +7,15 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class SaleInfo(
     val country: String,
-    val saleability: String?,
-    val isEbook: Boolean?,
-    val listPrice: PriceInfo?,
-    val retailPrice: PriceInfo?
+    val saleability: String? = null,
+    val isEbook: Boolean? = null,
+    val listPrice: PriceInfo? = null,
+    val retailPrice: PriceInfo? = null
 )
 
 @Immutable
 @Serializable
 data class PriceInfo(
-    val amount: Double?,
-    val currencyCode: String?
+    val amount: Double? = null,
+    val currencyCode: String?= null
 )

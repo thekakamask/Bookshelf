@@ -1,5 +1,6 @@
 package com.dcac.bookshelf.ui.screens
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
@@ -26,9 +27,12 @@ class BookshelfViewModel (
         viewModelScope.launch {
             _uiState.value = BookshelfUiState.Loading
             try {
-                val booksList = bookshelfRepository.getBooksList(listOf("jazz", "history"))
+                val booksList = bookshelfRepository.getBooksList("jazz+history")
+                booksList.forEach { book ->
+                    Log.d("BookshelfViewModel", "Book: $book")
+                }
                 val isShowingDetailsBook = false
-
+                Log.i("BookshelfViewModel", "✅ Success: ${booksList.size} books retrieved")
                 _uiState.value = BookshelfUiState.Success(
                     booksList = booksList,
                     isShowingDetailsBook = isShowingDetailsBook

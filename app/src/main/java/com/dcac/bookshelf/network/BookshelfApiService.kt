@@ -12,7 +12,7 @@ interface BookshelfApiService {
     @GET("volumes")
     suspend fun searchBooks(
         @Query("q") query: String,
-        @Query("maxResults") maxResults: Int = 25
+        @Query("maxResults") maxResults: Int = 20
     ): BooksList
 
     // OBTAIN SPECIFIC BOOK BY ID

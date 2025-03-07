@@ -7,10 +7,10 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class Book(
     val id: String,
-    val selfLink: String?,
+    val selfLink: String? = null,
     val volumeInfo: VolumeInfo,
-    val saleInfo: SaleInfo?,
-    val accessInfo: AccessInfo?
+    val saleInfo: SaleInfo? = null,
+    val accessInfo: AccessInfo? = null
 )
 
 @Immutable

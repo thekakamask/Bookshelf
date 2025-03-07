@@ -8,23 +8,26 @@ import kotlinx.serialization.Serializable
 data class VolumeInfo(
     val title: String,
     val authors: List<String>? = emptyList(),
-    val publisher: String?,
-    val publishedDate: String?,
-    val description: String?,
-    val pageCount: Int?,
+    val publisher: String? = null,
+    val publishedDate: String? = null,
+    val description: String? = null,
+    val pageCount: Int? = null,
     val categories: List<String>? = emptyList(),
-    val imageLinks: ImageLinks?,
-    val industryIdentifiers: List<IndustryIdentifier>?,
+    val imageLinks: ImageLinks? = null,
+    val industryIdentifiers: List<IndustryIdentifier>? = emptyList(),
     val language: String,
-    val canonicalVolumeLink: String?,
-    val maturityRating: String?
-)
+    val canonicalVolumeLink: String? = null,
+    val maturityRating: String? = null
+) {
+    val secureThumbnail: String?
+        get() = imageLinks?.thumbnail?.replace("http://", "https://")
+}
 
 @Immutable
 @Serializable
 data class ImageLinks(
-    val smallThumbnail: String?,
-    val thumbnail: String?
+    val smallThumbnail: String? =null ,
+    val thumbnail: String? = null
 )
 
 
