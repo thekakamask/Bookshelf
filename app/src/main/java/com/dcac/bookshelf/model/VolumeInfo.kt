@@ -1,6 +1,7 @@
 package com.dcac.bookshelf.model
 
 import androidx.compose.runtime.Immutable
+import com.dcac.bookshelf.utils.toHttps
 import kotlinx.serialization.Serializable
 
 @Immutable
@@ -20,7 +21,10 @@ data class VolumeInfo(
     val maturityRating: String? = null
 ) {
     val secureThumbnail: String?
-        get() = imageLinks?.thumbnail?.replace("http://", "https://")
+        get() = imageLinks?.thumbnail.toHttps()
+
+    val secureSmallThumbnail: String?
+        get() = imageLinks?.smallThumbnail.toHttps()
 }
 
 @Immutable

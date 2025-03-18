@@ -3,8 +3,12 @@ package com.dcac.bookshelf.ui.screens
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
@@ -36,7 +40,9 @@ fun HomePage() {
         modifier = scrollBehavior?.let { Modifier.nestedScroll(it.nestedScrollConnection) } ?: Modifier,
         topBar =  {
             BookshelfTopBar(
-                scrollBehavior = scrollBehavior
+                bookshelfUiState = bookshelfUiState,
+                scrollBehavior = scrollBehavior,
+                onBackArrowClick = { bookshelfViewModel.resetHomeScreenStates() },
             )
         }
     ) { paddingValues ->
@@ -44,9 +50,26 @@ fun HomePage() {
             .fillMaxSize()
             .padding(paddingValues)) {
             when (bookshelfUiState) {
-                is BookshelfUiState.Loading -> LoadingScreen()
-                is BookshelfUiState.Success -> GridScreen(bookshelfUiState = bookshelfUiState)
-                is BookshelfUiState.Error -> ErrorScreen()
+                is BookshelfUiState.Loading -> LoadingHomeScreen()
+                is BookshelfUiState.Success -> {
+                   if (bookshelfUiState.isShowingDetailsBook) {
+                       DetailsHomeScreen(
+                           bookshelfUiState = bookshelfUiState,
+                           onDetailsHomeScreenAndroidBackPressed = { bookshelfViewModel.resetHomeScreenStates() }
+                       )
+                   } else {
+                       GridScreen(
+                           bookshelfUiState = bookshelfUiState,
+                           onBookClick = { book ->
+                               bookshelfViewModel.updateCurrentBook(book)
+                           }
+                       )
+                   }
+                }
+                is BookshelfUiState.Error -> ErrorHomeScreen(
+                    bookshelfUiState = bookshelfUiState,
+                    onRetryClick = { bookshelfViewModel.retryLoading() }
+                )
             }
         }
     }
@@ -55,16 +78,40 @@ fun HomePage() {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun BookshelfTopBar(
-    scrollBehavior: TopAppBarScrollBehavior?
+    bookshelfUiState: BookshelfUiState,
+    scrollBehavior: TopAppBarScrollBehavior?,
+    onBackArrowClick: () -> Unit,
 ){
     Column {
         CenterAlignedTopAppBar(
             scrollBehavior = scrollBehavior,
             title = {
-                Text(
-                    text = stringResource(R.string.app_name),
-                    style = MaterialTheme.typography.headlineMedium
-                )
+                if (bookshelfUiState is BookshelfUiState.Success) {
+                    Text(
+                        text = stringResource(R.string.app_name),
+                        style = MaterialTheme.typography.headlineMedium
+                    )
+                } else if (bookshelfUiState is BookshelfUiState.Loading) {
+                    Text(
+                        text = stringResource(R.string.app_name_loading),
+                        style = MaterialTheme.typography.headlineMedium
+                    )
+                } else {
+                    Text(
+                        text = stringResource(R.string.app_name_error),
+                        style = MaterialTheme.typography.headlineMedium
+                    )
+                }
+            },
+            navigationIcon = {
+                if (bookshelfUiState is BookshelfUiState.Success && bookshelfUiState.isShowingDetailsBook) {
+                    IconButton(onClick = onBackArrowClick) {
+                        Icon(
+                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                            contentDescription = stringResource(R.string.back_button)
+                        )
+                    }
+                }
             }
         )
     }

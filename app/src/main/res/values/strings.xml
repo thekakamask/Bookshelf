@@ -1,5 +1,12 @@
 <resources>
     <string name="app_name">Bookshelf</string>
+    <string name="app_name_loading">Bookshelf in loading</string>
+    <string name="app_name_error">Bookshelf in error</string>
 
+    <string name="no_title">Unknown title</string>
+    <string name="no_authors">Unknown authors</string>
     <string name="no_description">No description available</string>
+    <string name="retry">Retry loading</string>
+    <string name="back_button">Back</string>
+
 </resources>

@@ -1,8 +1,6 @@
 package com.dcac.bookshelf
 
 import android.app.Application
-import coil.ImageLoader
-import coil.util.DebugLogger
 import com.dcac.bookshelf.data.AppContainer
 import com.dcac.bookshelf.data.DefaultAppContainer
 

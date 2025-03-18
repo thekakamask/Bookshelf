@@ -8,10 +8,12 @@ import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.dcac.bookshelf.BookshelfApplication
 import com.dcac.bookshelf.data.BookshelfRepository
+import com.dcac.bookshelf.model.Book
 import com.dcac.bookshelf.model.BookshelfUiState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import retrofit2.HttpException
 import java.io.IOException
@@ -24,6 +26,10 @@ class BookshelfViewModel (
     val uiState: StateFlow<BookshelfUiState> = _uiState.asStateFlow()
 
     init {
+        getBooksList()
+    }
+
+    private fun getBooksList() {
         viewModelScope.launch {
             _uiState.value = BookshelfUiState.Loading
             try {
@@ -49,13 +55,40 @@ class BookshelfViewModel (
             }
         }
     }
-        companion object {
-            val Factory: ViewModelProvider.Factory = viewModelFactory {
-                initializer {
-                    val application = (this[ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY] as BookshelfApplication)
-                    val bookshelfRepository = application.container.bookshelfRepository
-                    BookshelfViewModel(bookshelfRepository = bookshelfRepository)
-                }
+
+    fun updateCurrentBook(book: Book) {
+        if (_uiState.value is BookshelfUiState.Success) {
+            _uiState.update {
+                (it as BookshelfUiState.Success).copy(
+                    isShowingDetailsBook = true,
+                    currentBook = book
+                )
             }
         }
+    }
+
+    fun retryLoading() {
+        getBooksList()
+    }
+
+    fun resetHomeScreenStates() {
+        if (_uiState.value is BookshelfUiState.Success) {
+            _uiState.update {
+                (it as BookshelfUiState.Success).copy(
+                    isShowingDetailsBook = false,
+                    currentBook = null
+                )
+            }
+        }
+    }
+
+    companion object {
+        val Factory: ViewModelProvider.Factory = viewModelFactory {
+            initializer {
+                val application = (this[ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY] as BookshelfApplication)
+                val bookshelfRepository = application.container.bookshelfRepository
+                BookshelfViewModel(bookshelfRepository = bookshelfRepository)
+            }
+        }
+    }
 }
