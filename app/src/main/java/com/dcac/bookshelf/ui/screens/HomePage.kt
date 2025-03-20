@@ -86,22 +86,15 @@ fun BookshelfTopBar(
         CenterAlignedTopAppBar(
             scrollBehavior = scrollBehavior,
             title = {
-                if (bookshelfUiState is BookshelfUiState.Success) {
-                    Text(
-                        text = stringResource(R.string.app_name),
-                        style = MaterialTheme.typography.headlineMedium
-                    )
-                } else if (bookshelfUiState is BookshelfUiState.Loading) {
-                    Text(
-                        text = stringResource(R.string.app_name_loading),
-                        style = MaterialTheme.typography.headlineMedium
-                    )
-                } else {
-                    Text(
-                        text = stringResource(R.string.app_name_error),
-                        style = MaterialTheme.typography.headlineMedium
-                    )
-                }
+                Text(
+                    text = when (bookshelfUiState) {
+                        is BookshelfUiState.Success -> stringResource(R.string.app_name)
+                        is BookshelfUiState.Loading -> stringResource(R.string.app_name_loading)
+                        else -> stringResource(R.string.app_name_error)
+                    },
+                    style = MaterialTheme.typography.headlineSmall,
+                    color = MaterialTheme.colorScheme.onPrimaryContainer
+                )
             },
             navigationIcon = {
                 if (bookshelfUiState is BookshelfUiState.Success && bookshelfUiState.isShowingDetailsBook) {

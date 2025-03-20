@@ -2,14 +2,13 @@
 **Bookshelf** is a modern Android application that allows users to search and display a list of books with their images using the Google Books API. The project follows Android development best practices, implementing the MVVM architecture and leveraging tools such as Retrofit, Gson, and Coroutines for efficient network calls and data processing.
 
 ## ✅ **LAST MAJOR UPDATES**
-   - Implemented temporary **detailsScreen** to display books details.
-   - Implemented **ErrorScreen** in case of network error.
-   - Implemented **LoadingScreen** during books loading.
-   - Created extension functions to modify "HTTP" request into "HTTPS"  and to transform a list into a String.
-   - Implemented **ViewModel** functions to update UI state.
+   - Improve **detailsScreen** to display books details with : 
+      - A global vertical scrollable page who displays all details.
+      - 3 scrollable horizontal parts who display specific details.
+      - A description of the book.      
+      - A link who permit user to go the book page on Google Book internet site.
 
 ## ❌ **NEXT UPDATES**
-   - Improve **detailsScreen** to display better books details.
    - Improve **ViewModel** functions to update UI state.
    - Implement searching features to permit user to search a book among books displaying.
 
@@ -17,7 +16,7 @@
    - 📚 Display a list of books :
 
       - ✅ **Done** Fetch and display a list of books from the Google Books API.
-      - 🟩 **In progress** Show book details including title, author, and image.
+      - ✅ **Done** Show book details including title, author, and image and some additional information.
 
    - 🎨 **Modern and Fluid Interface**:
 
@@ -63,9 +62,13 @@
 2. **Navigate on the Google Books list**:
    - Scroll through the grid of books to explore them.
 3. **Click on a book into the grid**:
-   - Click on a image of the books list.
-   - Read the book details choosen.
-4. **Return on the Home Screen**:
+   - Click on a book image of the books list to go to the book details.
+4. **Scroll in the detail page to read all the book details:
+   - Scroll vertically to see all the book details.
+   - Scroll horizontally in the three specifics cells to see specific details of the book.
+5. **Use the link to go to the book page in Google Book internet site**:
+   - Use the link in the end of the detail page to go to Google Book internet site.
+5. **Return on the Home Screen**:
    - click on the TopBar BackArrow or the AndroidBackButton to come back to HomeScreen.
    - Choose other book.
 
@@ -81,6 +84,8 @@
 - **Details screen**:
 
    ![Details screen](screenshots/details_screen.png)
+   ![Details screen 2](screenshots/details_screen_2.png)
+   ![Details screen 3](screenshots/details_screen_3.png)
 
 
 ## 🤝 **Contributions**

@@ -1,11 +1,41 @@
 <resources>
     <string name="app_name">Bookshelf</string>
-    <string name="app_name_loading">Bookshelf in loading</string>
-    <string name="app_name_error">Bookshelf in error</string>
+    <string name="app_name_loading">Loading books</string>
+    <string name="app_name_error">Error in loading books</string>
+
+    <string name="global_information">Global information</string>
+    <string name="book_information">Book information</string>
+    <string name="availability_information">Price information</string>
+    <string name="category">Category</string>
+    <string name="language">Language</string>
+    <string name="type">Type</string>
+    <string name="publisher">Publisher</string>
+    <string name="published_date">Published date</string>
+    <string name="page_count">Page count</string>
+    <string name="maturity">Maturity rating</string>
+    <string name="ebook_availability">Ebook availability</string>">
+    <string name="retail_price">Retail price</string>
+    <string name="maturity_rating">For mature audience</string>
+    <string name="maturity_young_rating">For all audience</string>
+    <string name="ebook_available">Ebook available</string>
+    <string name="ebook_not_available">Ebook not available</string>
+    <string name="country">Country of sale</string>
 
     <string name="no_title">Unknown title</string>
     <string name="no_authors">Unknown authors</string>
+    <string name="no_type">Unknown type</string>
     <string name="no_description">No description available</string>
+    <string name="no_published_date">No published date available</string>
+    <string name="no_publisher">No publisher available</string>
+    <string name="no_page_count">No page count available</string>
+    <string name="no_categories">No categories available</string>
+    <string name="no_maturity_rating">No maturity rating available</string>
+    <string name="no_book_link">No book link available</string>
+    <string name="no_ebook_infos">No ebook information\'s available</string>
+    <string name="no_list_price">No list price available</string>
+    <string name="no_retail_price">No retail price available</string>
+    <string name="no_country">Unknown country</string>
+
     <string name="retry">Retry loading</string>
     <string name="back_button">Back</string>
 

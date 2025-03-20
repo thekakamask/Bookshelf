@@ -13,6 +13,7 @@ data class VolumeInfo(
     val publishedDate: String? = null,
     val description: String? = null,
     val pageCount: Int? = null,
+    val printType: String? = null,
     val categories: List<String>? = emptyList(),
     val imageLinks: ImageLinks? = null,
     val industryIdentifiers: List<IndustryIdentifier>? = emptyList(),

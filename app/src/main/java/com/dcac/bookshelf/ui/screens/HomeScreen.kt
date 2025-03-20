@@ -16,6 +16,7 @@ import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -25,6 +26,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
@@ -63,10 +65,17 @@ fun ErrorHomeScreen(
         Image(
             painter = painterResource(id = R.drawable.ic_connection_error), contentDescription = ""
         )
-        Text(bookshelfUiState.message,
-            modifier = Modifier.padding(16.dp))
+        Text(
+            text = bookshelfUiState.message,
+            style = MaterialTheme.typography.titleMedium,
+            textAlign = TextAlign.Center,
+            modifier = Modifier
+                .padding(16.dp)
+        )
         Button(onClick = onRetryClick) {
-            Text(stringResource(R.string.retry))
+            Text(
+                text = stringResource(R.string.retry),
+                style = MaterialTheme.typography.titleLarge)
         }
     }
 }
@@ -122,27 +131,6 @@ fun BookCard(
             modifier = Modifier
                 .aspectRatio(0.5f)
         )
-        /*AsyncImage(
-            model = ImageRequest.Builder(LocalContext.current)
-                .data(book.volumeInfo.imageLinks?.thumbnail ?: R.drawable.broken_image_48)
-                .listener(
-                    onError = { _, throwable ->
-                        Log.e("BookCard", "Erreur Coil", throwable) // Log automatiquement le stacktrace
-                        Log.e("BookCard", "Erreur Coil: ${throwable.localizedMessage ?: "Message inconnu"}")
-                    },
-                    onSuccess = { _, _ ->
-                        Log.d("BookCard", "Image chargée avec succès: ${book.volumeInfo.imageLinks?.thumbnail}")
-                    }
-                )
-                .build(),
-            contentDescription = book.id,
-            placeholder = painterResource(R.drawable.loading_img),
-            error = painterResource(R.drawable.broken_image_48),
-            contentScale = ContentScale.Crop,
-            imageLoader = ImageLoaderSingleton.imageLoader,
-            modifier = Modifier.aspectRatio(0.5f)
-        )*/
-
     }
 }
 
@@ -192,4 +180,20 @@ fun BookCardPreview() {
         bookshelfUiState = BookshelfUiState.Success(booksList = sampleBooks, isShowingDetailsBook = false),
         onBookClick = {}
     )
+}
+
+@Preview(showBackground = true)
+@Composable
+fun ErrorScreenPreview() {
+    ErrorHomeScreen(
+        bookshelfUiState = BookshelfUiState.Error("An error occurred"),
+        onRetryClick = {}
+    )
+
+}
+
+@Preview(showBackground = true)
+@Composable
+fun LoadingScreenPreview() {
+    LoadingHomeScreen()
 }

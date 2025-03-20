@@ -9,6 +9,11 @@ fun String?.toHttps(): String? {
 }
 
 @Composable
-fun List<String>?.toDisplayString(): String {
+fun List<String>?.toDisplayStringAuthors(): String {
     return this?.joinToString(separator = ", ") ?: stringResource(R.string.no_authors)
+}
+
+@Composable
+fun List<String>?.toDisplayStringCategories(): String {
+    return this?.joinToString(separator = ", ") ?: stringResource(R.string.no_categories)
 }

@@ -8,6 +8,8 @@
     <dimen name="padding_medium">8dp</dimen>
     <dimen name="padding_large">16dp</dimen>
     <dimen name="padding_x_large">32dp</dimen>
-
+    <dimen name="fixed_height_cells_size">120dp</dimen>
+    <dimen name="fixed_width_cells_size">180dp</dimen>
+    <dimen name="fixed_icon_size">36dp</dimen>
     <dimen name="fixed_text_height">48dp</dimen>
 </resources>
