@@ -3,6 +3,8 @@
     <string name="app_name_loading">Loading books</string>
     <string name="app_name_error">Error in loading books</string>
 
+    <string name="keyword_search">Type your keywords to search books</string>"
+
     <string name="global_information">Global information</string>
     <string name="book_information">Book information</string>
     <string name="availability_information">Price information</string>

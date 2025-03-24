@@ -2,15 +2,17 @@
 **Bookshelf** is a modern Android application that allows users to search and display a list of books with their images using the Google Books API. The project follows Android development best practices, implementing the MVVM architecture and leveraging tools such as Retrofit, Gson, and Coroutines for efficient network calls and data processing.
 
 ## ✅ **LAST MAJOR UPDATES**
-   - Improve **detailsScreen** to display books details with : 
-      - A global vertical scrollable page who displays all details.
-      - 3 scrollable horizontal parts who display specific details.
-      - A description of the book.      
-      - A link who permit user to go the book page on Google Book internet site.
+   - Improved **ViewModel** functions to update UI state.
+   - Implemented **searching features** to permit user to search books from Google book API with keywords : 
+      - Added Asynchronous function on the ViewModel for launch new API request.
+      - Added TextField on the HomeScreen to permit user to write their keywords.
+   - Improved **detailsScreen** to display books details with : 
+      - 2 arrow icons to display the possibility to scroll horizontally.
+      - Some small UI updates.
 
 ## ❌ **NEXT UPDATES**
-   - Improve **ViewModel** functions to update UI state.
-   - Implement searching features to permit user to search a book among books displaying.
+   - Improve UI.
+   - Make ViewModel and Repository tests.
 
 ## 📋 **Features**
    - 📚 Display a list of books :
@@ -22,7 +24,7 @@
 
       - TopBar:
          - ✅ **Done** Display application title.
-         - ❌ **Not implemented** Allow searching for books.
+         - ✅ **Done** Allow searching for books.
          - 🟩 **In progress** Implement dynamic UI behaviors.
 
       - Light/Dark Mode:
@@ -30,7 +32,7 @@
 
    - 🔄 **Real-time status management**:
 
-      - 🟩 **In progress** Use a ViewModel to handle API responses and manage UI state.
+      - ✅ **Done** Use a ViewModel to handle API responses and manage UI state.
       - ✅ **Done** Implement StateFlow for reactive updates.
 
    - 🚀 Performance and responsiveness:
@@ -41,7 +43,7 @@
       
    - 🛠 Error Handling & User Feedback:
 
-      - 🟩 **In progress** Displays appropriate error messages for network failures.
+      - ✅ **Done** Displays appropriate error messages for network failures.
       - ✅ **Done** Provides loading indicators for better UX.
 
 ## 🛠️ **Tech Stack**
@@ -85,7 +87,6 @@
 
    ![Details screen](screenshots/details_screen.png)
    ![Details screen 2](screenshots/details_screen_2.png)
-   ![Details screen 3](screenshots/details_screen_3.png)
 
 
 ## 🤝 **Contributions**

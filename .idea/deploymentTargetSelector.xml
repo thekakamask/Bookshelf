@@ -4,7 +4,7 @@
     <selectionStates>
       <SelectionState runConfigName="app">
         <option name="selectionMode" value="DROPDOWN" />
-        <DropdownSelection timestamp="2025-03-04T16:11:16.315411100Z">
+        <DropdownSelection timestamp="2025-03-24T21:08:24.466102900Z">
           <Target type="DEFAULT_BOOT">
             <handle>
               <DeviceId pluginId="LocalEmulator" identifier="path=C:\Users\adech\.android\avd\XHDPI_Samsung_A52s_API_34.avd" />

@@ -62,6 +62,13 @@ fun HomePage() {
                            bookshelfUiState = bookshelfUiState,
                            onBookClick = { book ->
                                bookshelfViewModel.updateCurrentBook(book)
+                           },
+                           userGoogleKeyWord = bookshelfUiState.userGoogleKeyWord,
+                           onUserGoogleKeyWordChange = {
+                               bookshelfViewModel.updateUserGoogleKeyWord(it)
+                           },
+                           onKeyboardDone = {
+                               bookshelfViewModel.searchBooks(it)
                            }
                        )
                    }

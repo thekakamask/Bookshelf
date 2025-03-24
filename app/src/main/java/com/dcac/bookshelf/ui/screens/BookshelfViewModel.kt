@@ -33,15 +33,14 @@ class BookshelfViewModel (
         viewModelScope.launch {
             _uiState.value = BookshelfUiState.Loading
             try {
-                val booksList = bookshelfRepository.getBooksList("jazz+history")
+                val booksList = bookshelfRepository.getBooksList("jazz history")
                 booksList.forEach { book ->
                     Log.d("BookshelfViewModel", "Book: $book")
                 }
-                val isShowingDetailsBook = false
                 Log.i("BookshelfViewModel", "✅ Success: ${booksList.size} books retrieved")
                 _uiState.value = BookshelfUiState.Success(
                     booksList = booksList,
-                    isShowingDetailsBook = isShowingDetailsBook
+                    userGoogleKeyWord = "jazz history"
                 )
             } catch (e: IOException) {
                 _uiState.value = BookshelfUiState.Error("Network error, please check your connection.")
@@ -78,6 +77,38 @@ class BookshelfViewModel (
                     isShowingDetailsBook = false,
                     currentBook = null
                 )
+            }
+        }
+    }
+
+    fun updateUserGoogleKeyWord(userGoogleKeyWord: String) {
+        if (_uiState.value is BookshelfUiState.Success) {
+            _uiState.update {
+                (it as BookshelfUiState.Success).copy(
+                    userGoogleKeyWord = userGoogleKeyWord
+                )
+            }
+        }
+    }
+
+    fun searchBooks(userGoogleKeyWord: String) {
+        viewModelScope.launch {
+            _uiState.value = BookshelfUiState.Loading
+            try {
+                val booksList = bookshelfRepository.getBooksList(userGoogleKeyWord)
+                _uiState.value = BookshelfUiState.Success(
+                    booksList = booksList,
+                    userGoogleKeyWord = userGoogleKeyWord
+                )
+            } catch (e: IOException) {
+                _uiState.value = BookshelfUiState.Error("Network error, please check your connection.")
+                println("❌ Network error: ${e.message}")
+            } catch (e: HttpException) {
+                _uiState.value = BookshelfUiState.Error("Server error: ${e.code()}")
+                println("❌ HTTP error: ${e.code()}")
+            } catch (e: Exception) {
+                _uiState.value = BookshelfUiState.Error("Unexpected error: ${e.message}")
+                println("❌ Unexpected error: ${e.message}")
             }
         }
     }

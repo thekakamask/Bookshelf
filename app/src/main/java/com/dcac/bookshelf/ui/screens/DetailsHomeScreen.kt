@@ -7,6 +7,7 @@ import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.aspectRatio
@@ -18,11 +19,15 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.RectangleShape
@@ -58,7 +63,6 @@ fun DetailsHomeScreen(
     Log.d("BookDescriptionDetails", "Description: ${currentBook.volumeInfo.description}")
     Log.d("BookObject", currentBook.toString())
 
-
     LazyColumn {
         item {
             Column(
@@ -84,29 +88,40 @@ fun DetailsHomeScreen(
                         .fillMaxWidth()
                         .padding(bottom = dimensionResource(R.dimen.padding_medium))
                 )
-                AsyncImage(
-                    model = currentBook.volumeInfo.secureSmallThumbnail ?: R.drawable.broken_image_48,
-                    contentDescription = currentBook.volumeInfo.title,
-                    placeholder = painterResource(R.drawable.loading_img),
-                    error = painterResource(R.drawable.broken_image_48),
-                    contentScale = ContentScale.FillBounds,
+                Card(
                     modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(bottom = dimensionResource(R.dimen.padding_large))
-                        .aspectRatio(1.5f)
-                )
+                        .border(
+                            width = dimensionResource(R.dimen.padding_x_x_small),
+                            color = MaterialTheme.colorScheme.onPrimaryContainer
+                        ),
+                    shape = RectangleShape
+                ) {
+                    AsyncImage(
+                        model = currentBook.volumeInfo.secureSmallThumbnail ?: R.drawable.broken_image_48,
+                        contentDescription = currentBook.volumeInfo.title,
+                        placeholder = painterResource(R.drawable.loading_img),
+                        error = painterResource(R.drawable.broken_image_48),
+                        contentScale = ContentScale.FillBounds,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .aspectRatio(1.5f)
+                    )
+                }
                 Text(
                     text = stringResource(R.string.global_information),
                     style = MaterialTheme.typography.titleLarge,
                     color = MaterialTheme.colorScheme.onPrimaryContainer,
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(bottom = dimensionResource(R.dimen.padding_small))
+                        .padding(top = dimensionResource(R.dimen.padding_medium),bottom = dimensionResource(R.dimen.padding_small))
                 )
-                LazyRow{
-                    item {
-                        Row(modifier = Modifier
-                            .padding(bottom = dimensionResource(R.dimen.padding_medium))) {
+                Box(modifier = Modifier.fillMaxWidth()) {
+                    val globalInfoListState = rememberLazyListState()
+                    val showBackArrow by remember { derivedStateOf { globalInfoListState.canScrollBackward } }
+                    val showForwardArrow by remember { derivedStateOf { globalInfoListState.canScrollForward } }
+
+                    LazyRow (state = globalInfoListState){
+                        item {
                             IconTextColumn(
                                 title = stringResource(R.string.category),
                                 text = when {
@@ -116,12 +131,16 @@ fun DetailsHomeScreen(
                                 iconResId = R.drawable.icon_category,
                                 contentDescription = "Categories"
                             )
+                        }
+                        item {
                             IconTextColumn(
-                                title = stringResource(R.string.language),
-                                text = currentBook.volumeInfo.language,
-                                iconResId = R.drawable.icon_translate,
-                                contentDescription = "Languages"
+                            title = stringResource(R.string.language),
+                            text = currentBook.volumeInfo.language,
+                            iconResId = R.drawable.icon_translate,
+                            contentDescription = "Languages"
                             )
+                        }
+                        item {
                             IconTextColumn(
                                 title = stringResource(R.string.type),
                                 text = currentBook.volumeInfo.printType?: stringResource(R.string.no_type),
@@ -129,6 +148,25 @@ fun DetailsHomeScreen(
                                 contentDescription = "Type"
                             )
                         }
+                    }
+                    if(showBackArrow) {
+                        Icon(
+                            painter = painterResource(id = R.drawable.icon_arrow_back),
+                            contentDescription = "Scroll left",
+                            modifier = Modifier
+                                .align(Alignment.CenterStart)
+                                .padding(start = dimensionResource(R.dimen.padding_medium))
+                                .size(dimensionResource(R.dimen.fixed_icon_size))
+                        )
+                    }
+                    if (showForwardArrow) {
+                        Icon(
+                            painter = painterResource(id = R.drawable.icon_arrow_forward),
+                            contentDescription = "Scroll right",
+                            modifier = Modifier
+                                .align(Alignment.CenterEnd)
+                                .size(dimensionResource(R.dimen.fixed_icon_size))
+                        )
                     }
                 }
                 Text(
@@ -139,22 +177,29 @@ fun DetailsHomeScreen(
                         .fillMaxWidth()
                         .padding(bottom = dimensionResource(R.dimen.padding_small))
                 )
-                LazyRow {
-                    item {
-                        Row(modifier = Modifier
-                            .padding(bottom = dimensionResource(R.dimen.padding_medium))){
+                Box(modifier = Modifier.fillMaxWidth()) {
+                    val bookInfoListState = rememberLazyListState()
+                    val showBackArrow by remember { derivedStateOf { bookInfoListState.canScrollBackward } }
+                    val showForwardArrow by remember { derivedStateOf { bookInfoListState.canScrollForward } }
+
+                    LazyRow (state = bookInfoListState) {
+                        item {
                             IconTextColumn(
                                 title = stringResource(R.string.publisher),
                                 text = currentBook.volumeInfo.publisher ?: stringResource(R.string.no_publisher),
                                 iconResId = R.drawable.icon_local_library,
                                 contentDescription = "Publisher"
                             )
+                        }
+                        item {
                             IconTextColumn(
                                 title = stringResource(R.string.published_date),
                                 text = currentBook.volumeInfo.publishedDate ?: stringResource(R.string.no_published_date),
                                 iconResId = R.drawable.icon_calendar_month,
                                 contentDescription = "Published date icon"
                             )
+                        }
+                        item {
                             IconTextColumn(
                                 title = stringResource(R.string.page_count),
                                 text = when (currentBook.volumeInfo.pageCount) {
@@ -164,17 +209,27 @@ fun DetailsHomeScreen(
                                 iconResId = R.drawable.icon_auto_stories,
                                 contentDescription = "Pages"
                             )
-                            IconTextColumn(
-                                title = stringResource(R.string.maturity),
-                                text = when (currentBook.volumeInfo.maturityRating) {
-                                    null -> stringResource(R.string.no_maturity_rating)
-                                    "NOT_MATURE" -> stringResource(R.string.maturity_young_rating)
-                                    else -> currentBook.volumeInfo.maturityRating
-                                },
-                                iconResId = R.drawable.icon_mature_rating,
-                                contentDescription = "Maturity rating"
-                            )
                         }
+
+                    }
+                    if (showBackArrow){
+                        Icon(
+                            painter = painterResource(id = R.drawable.icon_arrow_back),
+                            contentDescription = "Scroll left",
+                            modifier = Modifier
+                                .align(Alignment.CenterStart)
+                                .padding(start = dimensionResource(R.dimen.padding_medium))
+                                .size(dimensionResource(R.dimen.fixed_icon_size))
+                        )
+                    }
+                    if(showForwardArrow) {
+                        Icon(
+                            painter = painterResource(id = R.drawable.icon_arrow_forward),
+                            contentDescription = "Scroll right",
+                            modifier = Modifier
+                                .align(Alignment.CenterEnd)
+                                .size(dimensionResource(R.dimen.fixed_icon_size))
+                        )
                     }
                 }
                 Text(
@@ -185,26 +240,33 @@ fun DetailsHomeScreen(
                         .fillMaxWidth()
                         .padding(bottom = dimensionResource(R.dimen.padding_small))
                 )
-                LazyRow {
-                    item {
-                        Row(modifier = Modifier
-                            .padding(bottom = dimensionResource(R.dimen.padding_medium))){
+                Box(modifier = Modifier.fillMaxWidth()) {
+                    val availabilityInfoListState = rememberLazyListState()
+                    val showBackArrow by remember { derivedStateOf { availabilityInfoListState.canScrollBackward } }
+                    val showForwardArrow by remember { derivedStateOf { availabilityInfoListState.canScrollForward } }
+
+                    LazyRow(state = availabilityInfoListState) {
+                        item {
                             IconTextColumn(
                                 title = stringResource(R.string.country),
                                 text = currentBook.saleInfo?.country ?: stringResource(R.string.no_country),
                                 iconResId = R.drawable.icon_flag,
                                 contentDescription = "Country of sale"
                             )
+                        }
+                        item {
                             IconTextColumn(
-                                title = stringResource(R.string.ebook_availability),
-                                text = when (currentBook.saleInfo?.isEbook) {
-                                    true -> stringResource(R.string.ebook_available)
-                                    false -> stringResource(R.string.ebook_not_available)
-                                    else -> stringResource(R.string.no_ebook_infos)
-                                },
-                                iconResId = R.drawable.icon_play_lesson,
-                                contentDescription = "Ebook availability"
+                            title = stringResource(R.string.ebook_availability),
+                            text = when (currentBook.saleInfo?.isEbook) {
+                                true -> stringResource(R.string.ebook_available)
+                                false -> stringResource(R.string.ebook_not_available)
+                                else -> stringResource(R.string.no_ebook_infos)
+                            },
+                            iconResId = R.drawable.icon_play_lesson,
+                            contentDescription = "Ebook availability"
                             )
+                        }
+                        item {
                             IconTextColumn(
                                 title = stringResource(R.string.retail_price),
                                 text = when (val amount = currentBook.saleInfo?.retailPrice?.amount) {
@@ -216,15 +278,40 @@ fun DetailsHomeScreen(
                             )
                         }
                     }
+                    if(showBackArrow) {
+                        Icon(
+                            painter = painterResource(id = R.drawable.icon_arrow_back),
+                            contentDescription = "Scroll left",
+                            modifier = Modifier
+                                .align(Alignment.CenterStart)
+                                .padding(start = dimensionResource(R.dimen.padding_medium))
+                                .size(dimensionResource(R.dimen.fixed_icon_size))
+                        )
+                    }
+                    if(showForwardArrow){
+                        Icon(
+                            painter = painterResource(id = R.drawable.icon_arrow_forward),
+                            contentDescription = "Scroll right",
+                            modifier = Modifier
+                                .align(Alignment.CenterEnd)
+                                .size(dimensionResource(R.dimen.fixed_icon_size))
+                        )
+                    }
                 }
                 Card(
-                    modifier = Modifier.padding(bottom = dimensionResource(R.dimen.padding_medium)),
-                    shape = RectangleShape
+                    modifier = Modifier.padding(
+                        top = dimensionResource(R.dimen.padding_medium),
+                        bottom = dimensionResource(R.dimen.padding_medium)),
+                    shape = RectangleShape,
+                    /*colors = CardDefaults.cardColors(
+                        containerColor = MaterialTheme.colorScheme.background
+                    )*/
                 ) {
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .border(width = dimensionResource(R.dimen.padding_x_small),
+                            .border(
+                                width = dimensionResource(R.dimen.padding_x_x_small),
                                 color = MaterialTheme.colorScheme.onPrimaryContainer
                             ),
                         horizontalArrangement = Arrangement.Start,
@@ -237,18 +324,20 @@ fun DetailsHomeScreen(
                                 .size(dimensionResource(R.dimen.fixed_icon_size))
                                 .padding(
                                     start = dimensionResource(R.dimen.padding_small),
-                                    end = dimensionResource(R.dimen.padding_medium))
+                                    end = dimensionResource(R.dimen.padding_medium)
+                                )
                         )
                         Text(
                             text = currentBook.volumeInfo.description ?: stringResource(R.string.no_description),
-                            style = MaterialTheme.typography.titleMedium,
+                            style = MaterialTheme.typography.bodyLarge,
                             color = MaterialTheme.colorScheme.onPrimaryContainer,
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .padding(
                                     top = dimensionResource(R.dimen.padding_medium),
                                     end = dimensionResource(R.dimen.padding_small),
-                                    bottom = dimensionResource(R.dimen.padding_medium))
+                                    bottom = dimensionResource(R.dimen.padding_medium)
+                                )
                         )
                     }
                 }
@@ -261,12 +350,15 @@ fun DetailsHomeScreen(
                                 context.startActivity(intent)
                             }
                         },
-                    shape = RectangleShape
+                    shape = RectangleShape,
+                    /*colors = CardDefaults.cardColors(
+                        containerColor = MaterialTheme.colorScheme.background
+                    )*/
                 ) {
                     Row(
                         modifier = Modifier
                             .border(
-                                width = dimensionResource(R.dimen.padding_x_small),
+                                width = dimensionResource(R.dimen.padding_x_x_small),
                                 color = MaterialTheme.colorScheme.onPrimaryContainer
                             )
                             .fillMaxWidth(),
@@ -280,11 +372,12 @@ fun DetailsHomeScreen(
                                 .size(dimensionResource(R.dimen.fixed_icon_size))
                                 .padding(
                                     start = dimensionResource(R.dimen.padding_small),
-                                    end = dimensionResource(R.dimen.padding_medium))
+                                    end = dimensionResource(R.dimen.padding_medium)
+                                )
                         )
                         Text(
                             text = bookLink ?: stringResource(R.string.no_book_link),
-                            style = MaterialTheme.typography.titleMedium,
+                            style = MaterialTheme.typography.bodyLarge,
                             textDecoration = TextDecoration.Underline,
                             color = MaterialTheme.colorScheme.inversePrimary,
                             modifier = Modifier
@@ -292,7 +385,8 @@ fun DetailsHomeScreen(
                                 .padding(
                                     top = dimensionResource(R.dimen.padding_medium),
                                     end = dimensionResource(R.dimen.padding_small),
-                                    bottom = dimensionResource(R.dimen.padding_medium))
+                                    bottom = dimensionResource(R.dimen.padding_medium)
+                                )
                         )
                     }
                 }
@@ -300,6 +394,7 @@ fun DetailsHomeScreen(
         }
     }
 }
+
 @Composable
 fun IconTextColumn(
     title: String,
@@ -309,20 +404,21 @@ fun IconTextColumn(
 ) {
     Card(
         modifier = Modifier.padding(dimensionResource(R.dimen.padding_x_small)),
-        shape = RectangleShape
+        shape = RectangleShape,
     ) {
         Column(
             modifier = Modifier
                 .height(dimensionResource(R.dimen.fixed_height_cells_size))
                 .width(dimensionResource(R.dimen.fixed_width_cells_size))
-                .border(width = dimensionResource(R.dimen.padding_x_small),
+                .border(
+                    width = dimensionResource(R.dimen.padding_x_x_small),
                     color = MaterialTheme.colorScheme.onPrimaryContainer
                 ),
-            horizontalAlignment = Alignment.CenterHorizontally,
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
                 text = title,
-                style = MaterialTheme.typography.titleMedium,
+                style = MaterialTheme.typography.bodyLarge,
                 color = MaterialTheme.colorScheme.onPrimaryContainer,
                 textAlign = TextAlign.Center,
                 modifier = Modifier.padding(
@@ -336,7 +432,7 @@ fun IconTextColumn(
             )
             Text(
                 text = text,
-                style = MaterialTheme.typography.titleMedium,
+                style = MaterialTheme.typography.bodyLarge,
                 color = MaterialTheme.colorScheme.onPrimaryContainer,
                 textAlign = TextAlign.Center
             )
@@ -387,7 +483,7 @@ fun DetailsScreenPreview() {
     )
 
     DetailsHomeScreen(
-        bookshelfUiState = BookshelfUiState.Success(booksList = sampleBooks, isShowingDetailsBook = true),
+        bookshelfUiState = BookshelfUiState.Success(booksList = sampleBooks, isShowingDetailsBook = true, userGoogleKeyWord = ""),
         onDetailsHomeScreenAndroidBackPressed = {}
     )
 

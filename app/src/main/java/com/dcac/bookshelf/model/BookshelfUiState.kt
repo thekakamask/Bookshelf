@@ -9,7 +9,8 @@ sealed interface BookshelfUiState {
         val booksList: List<Book>,
         val filteredBooksList: List<Book>? = null,
         val currentBook : Book? = null,
-        val isShowingDetailsBook : Boolean
+        val isShowingDetailsBook : Boolean = false,
+        val userGoogleKeyWord : String
     ) : BookshelfUiState
 
     data class Error (

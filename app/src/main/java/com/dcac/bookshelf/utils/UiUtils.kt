@@ -17,3 +17,10 @@ fun List<String>?.toDisplayStringAuthors(): String {
 fun List<String>?.toDisplayStringCategories(): String {
     return this?.joinToString(separator = ", ") ?: stringResource(R.string.no_categories)
 }
+
+/*
+fun String.toGoogleBooksQuery(): String {
+    return this.trim()
+        .split("\\s+".toRegex()) // Split on whitespace
+        .joinToString("+") //add +
+}*/
