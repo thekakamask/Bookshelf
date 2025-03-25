@@ -4,6 +4,8 @@
     <string name="app_name_error">Error in loading books</string>
 
     <string name="keyword_search">Type your keywords to search books</string>"
+    <string name="welcome_user">Welcome user</string>"
+    <string name="enter_keywords">Type your keywords in the text field and validate to display books from Google API</string>"
 
     <string name="global_information">Global information</string>
     <string name="book_information">Book information</string>

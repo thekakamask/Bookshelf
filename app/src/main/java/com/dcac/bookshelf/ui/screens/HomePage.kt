@@ -1,5 +1,13 @@
 package com.dcac.bookshelf.ui.screens
 
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.ContentTransform
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideInHorizontally
+import androidx.compose.animation.slideOutHorizontally
+import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -49,34 +57,68 @@ fun HomePage() {
         Surface(modifier = Modifier
             .fillMaxSize()
             .padding(paddingValues)) {
-            when (bookshelfUiState) {
-                is BookshelfUiState.Loading -> LoadingHomeScreen()
-                is BookshelfUiState.Success -> {
-                   if (bookshelfUiState.isShowingDetailsBook) {
-                       DetailsHomeScreen(
-                           bookshelfUiState = bookshelfUiState,
-                           onDetailsHomeScreenAndroidBackPressed = { bookshelfViewModel.resetHomeScreenStates() }
-                       )
-                   } else {
-                       GridScreen(
-                           bookshelfUiState = bookshelfUiState,
-                           onBookClick = { book ->
-                               bookshelfViewModel.updateCurrentBook(book)
-                           },
-                           userGoogleKeyWord = bookshelfUiState.userGoogleKeyWord,
-                           onUserGoogleKeyWordChange = {
-                               bookshelfViewModel.updateUserGoogleKeyWord(it)
-                           },
-                           onKeyboardDone = {
-                               bookshelfViewModel.searchBooks(it)
-                           }
-                       )
-                   }
+
+            AnimatedContent(
+                targetState = bookshelfUiState,
+                label = "AnimatedContent",
+                transitionSpec = {
+                    when {
+                        targetState is BookshelfUiState.Success && (targetState as BookshelfUiState.Success).isShowingDetailsBook -> {
+                            slideInHorizontally(
+                                initialOffsetX = { it },
+                                animationSpec = tween(500)
+                            ) togetherWith slideOutHorizontally(
+                                targetOffsetX = { -it },
+                                animationSpec = tween(500)
+                            )
+                        }
+                        initialState is BookshelfUiState.Success && (initialState as BookshelfUiState.Success).isShowingDetailsBook -> {
+                            slideInHorizontally(
+                                initialOffsetX = { -it },
+                                animationSpec = tween(500)
+                            ) togetherWith slideOutHorizontally(
+                                targetOffsetX = { it },
+                                animationSpec = tween(500)
+                            )
+                        }
+                        else -> ContentTransform(
+                            initialContentExit = fadeOut(animationSpec = tween(500)),
+                            targetContentEnter = fadeIn(animationSpec = tween(500))
+                        ) //No transition
+                    }
                 }
-                is BookshelfUiState.Error -> ErrorHomeScreen(
-                    bookshelfUiState = bookshelfUiState,
-                    onRetryClick = { bookshelfViewModel.retryLoading() }
-                )
+            ) { state ->
+                when (state) {
+                    is BookshelfUiState.Loading -> LoadingHomeScreen()
+
+                    is BookshelfUiState.Error -> ErrorHomeScreen(
+                        bookshelfUiState = state,
+                        onRetryClick = { bookshelfViewModel.retryLoading()}
+                    )
+
+                    is BookshelfUiState.Success -> {
+                        if (state.isShowingDetailsBook) {
+                            DetailsHomeScreen(
+                                bookshelfUiState = state,
+                                onDetailsHomeScreenAndroidBackPressed = { bookshelfViewModel.resetHomeScreenStates() }
+                            )
+                        } else {
+                            SuccessHomeScreen(
+                                bookshelfUiState = state,
+                                onBookClick = { book ->
+                                    bookshelfViewModel.updateCurrentBook(book)
+                                },
+                                userGoogleKeyWord = state.userGoogleKeyWord,
+                                onUserGoogleKeyWordChange = {
+                                    bookshelfViewModel.updateUserGoogleKeyWord(it)
+                                },
+                                onKeyboardDone = {
+                                    bookshelfViewModel.searchBooks(it)
+                                }
+                            )
+                        }
+                    }
+                }
             }
         }
     }
@@ -115,5 +157,4 @@ fun BookshelfTopBar(
             }
         )
     }
-
 }

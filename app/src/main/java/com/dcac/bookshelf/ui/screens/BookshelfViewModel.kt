@@ -1,6 +1,5 @@
 package com.dcac.bookshelf.ui.screens
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
@@ -18,7 +17,7 @@ import kotlinx.coroutines.launch
 import retrofit2.HttpException
 import java.io.IOException
 
-class BookshelfViewModel (
+class BookshelfViewModel(
     private val bookshelfRepository: BookshelfRepository
 ) : ViewModel() {
 
@@ -26,21 +25,38 @@ class BookshelfViewModel (
     val uiState: StateFlow<BookshelfUiState> = _uiState.asStateFlow()
 
     init {
-        getBooksList()
+        initUiState()
     }
 
-    private fun getBooksList() {
+    private fun initUiState() {
         viewModelScope.launch {
             _uiState.value = BookshelfUiState.Loading
             try {
-                val booksList = bookshelfRepository.getBooksList("jazz history")
-                booksList.forEach { book ->
-                    Log.d("BookshelfViewModel", "Book: $book")
-                }
-                Log.i("BookshelfViewModel", "✅ Success: ${booksList.size} books retrieved")
+                _uiState.value = BookshelfUiState.Success(
+                    userGoogleKeyWord = "",
+                    booksList = emptyList()
+                )
+            } catch (e: IOException) {
+                _uiState.value = BookshelfUiState.Error("Network error, please check your connection.")
+                println("❌ Network error: ${e.message}")
+            } catch (e: HttpException) {
+                _uiState.value = BookshelfUiState.Error("Server error: ${e.code()}")
+                println("❌ HTTP error: ${e.code()}")
+            } catch (e: Exception) {
+                _uiState.value = BookshelfUiState.Error("Unexpected error: ${e.message}")
+                println("❌ Unexpected error: ${e.message}")
+            }
+        }
+    }
+
+    private fun getBooksList(keyWord: String) {
+        viewModelScope.launch {
+            _uiState.value = BookshelfUiState.Loading
+            try {
+                val booksList = bookshelfRepository.getBooksList(keyWord)
                 _uiState.value = BookshelfUiState.Success(
                     booksList = booksList,
-                    userGoogleKeyWord = "jazz history"
+                    userGoogleKeyWord = keyWord
                 )
             } catch (e: IOException) {
                 _uiState.value = BookshelfUiState.Error("Network error, please check your connection.")
@@ -67,7 +83,9 @@ class BookshelfViewModel (
     }
 
     fun retryLoading() {
-        getBooksList()
+        if (_uiState.value is BookshelfUiState.Success) {
+            getBooksList((_uiState.value as BookshelfUiState.Success).userGoogleKeyWord)
+        }
     }
 
     fun resetHomeScreenStates() {
@@ -92,25 +110,7 @@ class BookshelfViewModel (
     }
 
     fun searchBooks(userGoogleKeyWord: String) {
-        viewModelScope.launch {
-            _uiState.value = BookshelfUiState.Loading
-            try {
-                val booksList = bookshelfRepository.getBooksList(userGoogleKeyWord)
-                _uiState.value = BookshelfUiState.Success(
-                    booksList = booksList,
-                    userGoogleKeyWord = userGoogleKeyWord
-                )
-            } catch (e: IOException) {
-                _uiState.value = BookshelfUiState.Error("Network error, please check your connection.")
-                println("❌ Network error: ${e.message}")
-            } catch (e: HttpException) {
-                _uiState.value = BookshelfUiState.Error("Server error: ${e.code()}")
-                println("❌ HTTP error: ${e.code()}")
-            } catch (e: Exception) {
-                _uiState.value = BookshelfUiState.Error("Unexpected error: ${e.message}")
-                println("❌ Unexpected error: ${e.message}")
-            }
-        }
+        getBooksList(userGoogleKeyWord)
     }
 
     companion object {

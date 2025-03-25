@@ -2,49 +2,46 @@
 **Bookshelf** is a modern Android application that allows users to search and display a list of books with their images using the Google Books API. The project follows Android development best practices, implementing the MVVM architecture and leveraging tools such as Retrofit, Gson, and Coroutines for efficient network calls and data processing.
 
 ## ✅ **LAST MAJOR UPDATES**
-   - Improved **ViewModel** functions to update UI state.
-   - Implemented **searching features** to permit user to search books from Google book API with keywords : 
-      - Added Asynchronous function on the ViewModel for launch new API request.
-      - Added TextField on the HomeScreen to permit user to write their keywords.
-   - Improved **detailsScreen** to display books details with : 
-      - 2 arrow icons to display the possibility to scroll horizontally.
-      - Some small UI updates.
+   - Implemented **InitialScreen** to display welcome message and to permit user to search books from Google Book API with his keywords.
+   - Modified **ViewModel** to launch API request only when user has write keywords and validate.
+   - Implemented **UI transitions** between HomeScreen and DetailsScreen.
 
 ## ❌ **NEXT UPDATES**
-   - Improve UI.
+   - Improve error informations.
    - Make ViewModel and Repository tests.
 
 ## 📋 **Features**
    - 📚 Display a list of books :
 
-      - ✅ **Done** Fetch and display a list of books from the Google Books API.
-      - ✅ **Done** Show book details including title, author, and image and some additional information.
+      - ✅ **DONE** Fetch and display a list of books from the Google Books API.
+      - ✅ **DONE** Show book details including title, author, and image and some additional information.
 
    - 🎨 **Modern and Fluid Interface**:
 
       - TopBar:
-         - ✅ **Done** Display application title.
-         - ✅ **Done** Allow searching for books.
-         - 🟩 **In progress** Implement dynamic UI behaviors.
+         - ✅ **DONE** Display application title.
+         - ✅ **DONE** Allow searching for books.
+         - ✅ **DONE** Implement dynamic UI behaviors.
 
       - Light/Dark Mode:
-         - ✅ **Done** Fully supports Material 3 with adaptive light and dark themes.
+         - ✅ **DONE** Fully supports Material 3 with adaptive light and dark themes.
 
    - 🔄 **Real-time status management**:
 
-      - ✅ **Done** Use a ViewModel to handle API responses and manage UI state.
-      - ✅ **Done** Implement StateFlow for reactive updates.
+      - ✅ **DONE** Use a ViewModel to handle API responses and manage UI state.
+      - ✅ **DONE** Implement StateFlow for reactive updates.
 
    - 🚀 Performance and responsiveness:
    
-      - ✅ **Done** Implement lazy loading for efficient image handling.
-      - ✅ **Done** Use Coil for optimized image fetching.
-      - 🟩 **In progress** Optimize UI scrolling and animations.
+      - ✅ **DONE** Implement lazy loading for efficient image handling.
+      - ✅ **DONE** Use Coil for optimized image fetching.
+      - ✅ **DONE** Optimize UI scrolling and animations.
       
    - 🛠 Error Handling & User Feedback:
 
-      - ✅ **Done** Displays appropriate error messages for network failures.
-      - ✅ **Done** Provides loading indicators for better UX.
+      - 🟩 **IN PROGRESS** Displays appropriate error messages.
+      - ✅ **DONE** Provides loading indicators for better UX.
+      - ❌ **NOT IMPLEMENTEND** ViewModel and Repository tests.
 
 ## 🛠️ **Tech Stack**
    - **Kotlin**: Modern, concise language for Android development.
@@ -61,20 +58,28 @@
 ## 🚀 **How to Use**
 1. **Launch the App**:
    - Download the code and launch the app on an Android device or emulator. (Bad performance because in Debug Build Variant)
-2. **Navigate on the Google Books list**:
+2. **Use Google Book API on the InitialScreen**:
+   - Read the welcoming message.
+   - Tap the keywords of your choice in the text field and validate to launch the API request to display a list of books from Google Book.
+3. **Navigate on the Google Books list**:
    - Scroll through the grid of books to explore them.
-3. **Click on a book into the grid**:
+4. **Click on a book into the grid**:
    - Click on a book image of the books list to go to the book details.
-4. **Scroll in the detail page to read all the book details:
+5. **Scroll in the detail page to read all the book details:
    - Scroll vertically to see all the book details.
    - Scroll horizontally in the three specifics cells to see specific details of the book.
-5. **Use the link to go to the book page in Google Book internet site**:
+6. **Use the link to go to the book page in Google Book internet site**:
    - Use the link in the end of the detail page to go to Google Book internet site.
-5. **Return on the Home Screen**:
+7. **Return on the Home Screen**:
    - click on the TopBar BackArrow or the AndroidBackButton to come back to HomeScreen.
-   - Choose other book.
+   - Choose other book on the list or write new keywords to display new books list.
 
 ## 📸 **Screenshots**
+
+- **Initial screen**:
+
+   ![Initial screen](screenshots/initial_screen.png)
+   
 - **Home screen**:
 
    ![Home screen](screenshots/home_screen.png)

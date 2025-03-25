@@ -24,6 +24,10 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.RectangleShape
@@ -39,7 +43,6 @@ import coil.compose.AsyncImage
 import com.dcac.bookshelf.R
 import com.dcac.bookshelf.model.Book
 import com.dcac.bookshelf.model.BookshelfUiState
-import com.dcac.bookshelf.model.VolumeInfo
 
 @Composable
 fun LoadingHomeScreen() {
@@ -87,13 +90,15 @@ fun ErrorHomeScreen(
 }
 
 @Composable
-fun GridScreen(
+fun SuccessHomeScreen(
     bookshelfUiState: BookshelfUiState.Success,
     onBookClick: (Book) -> Unit,
     userGoogleKeyWord: String = "",
     onUserGoogleKeyWordChange: (String) -> Unit = {},
     onKeyboardDone: (String) -> Unit = {}
 ) {
+    var tempGoogleKeyWord by remember { mutableStateOf(userGoogleKeyWord) }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -104,8 +109,8 @@ fun GridScreen(
                 .padding(bottom = dimensionResource(R.dimen.padding_x_small))
                 .fillMaxWidth(),
             textStyle = MaterialTheme.typography.bodyLarge,
-            value = userGoogleKeyWord,
-            onValueChange = onUserGoogleKeyWordChange,
+            value = tempGoogleKeyWord,
+            onValueChange = { tempGoogleKeyWord = it },
             singleLine = true,
             label = {
                 Text(
@@ -117,22 +122,61 @@ fun GridScreen(
                 imeAction = ImeAction.Done
             ),
             keyboardActions = KeyboardActions(
-                onDone = {onKeyboardDone(userGoogleKeyWord) }
+                onDone = {
+                    onKeyboardDone(tempGoogleKeyWord)
+                    onUserGoogleKeyWordChange(tempGoogleKeyWord)
+                }
             )
         )
-        LazyVerticalGrid(
-            columns = GridCells.Fixed(2),
-        ) {
-            items(
-                items = bookshelfUiState.booksList,
-                key = { it.id }
-            ) { book ->
-                BookCard(
-                    book = book,
-                    onBookClick = onBookClick
-                )
+        Log.d("SuccessHomeScreen", "booksList: ${bookshelfUiState.booksList}")
+        if (bookshelfUiState.booksList.isEmpty()) {
+            InitialMessage()
+        } else {
+            LazyVerticalGrid(
+                columns = GridCells.Fixed(2),
+            ) {
+                items(
+                    items = bookshelfUiState.booksList,
+                    key = { it.id }
+                ) { book ->
+                    BookCard(
+                        book = book,
+                        onBookClick = onBookClick
+                    )
+                }
             }
         }
+    }
+}
+
+@Composable
+fun InitialMessage(){
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(dimensionResource(R.dimen.padding_medium)),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ){
+        Text(
+            text = stringResource(R.string.welcome_user),
+            style = MaterialTheme.typography.headlineMedium,
+            color = MaterialTheme.colorScheme.onPrimaryContainer,
+            textAlign = TextAlign.Center,
+            modifier = Modifier.padding(bottom = dimensionResource(R.dimen.padding_medium))
+        )
+        Text(
+            text = stringResource(R.string.enter_keywords),
+            style = MaterialTheme.typography.titleLarge,
+            color = MaterialTheme.colorScheme.onPrimaryContainer,
+            textAlign = TextAlign.Center,
+            modifier = Modifier.padding(bottom = dimensionResource(R.dimen.padding_medium))
+        )
+        Image(
+            painter = painterResource(id = R.drawable.bookshelf_logo),
+            contentDescription = "bookshelf_initial_logo",
+            modifier = Modifier.size(200.dp)
+        )
     }
 }
 
@@ -149,7 +193,6 @@ fun BookCard(
                 width = dimensionResource(R.dimen.padding_x_x_small),
                 color = MaterialTheme.colorScheme.onPrimaryContainer
             )
-            .padding(dimensionResource(R.dimen.padding_x_small))
             .clickable { onBookClick(book) }
     ) {
         AsyncImage(
@@ -171,49 +214,7 @@ fun BookCard(
 @Preview(showBackground = true)
 @Composable
 fun BookCardPreview() {
-    val sampleBooks = listOf(
-        Book(
-            id = "1",
-            selfLink = "",
-            volumeInfo = VolumeInfo(
-                title = "Sample Book",
-                authors = listOf("Author Name"),
-                publisher = "Sample Publisher",
-                publishedDate = "2024",
-                description = "This is a sample description.",
-                pageCount = 100,
-                categories = listOf("Fiction"),
-                imageLinks = null,
-                industryIdentifiers = emptyList(),
-                language = "en"
-            ),
-            saleInfo = null,
-            accessInfo = null
-        ),
-        Book(
-            id = "2",
-            selfLink = "",
-            volumeInfo = VolumeInfo(
-                title = "Sample Book 2",
-                authors = listOf("Author Name 2"),
-                publisher = "Sample Publisher 2",
-                publishedDate = "2024",
-                description = "This is a sample description 2.",
-                pageCount = 100,
-                categories = listOf("Fiction"),
-                imageLinks = null,
-                industryIdentifiers = emptyList(),
-                language = "en"
-            ),
-            saleInfo = null,
-            accessInfo = null
-        )
-    )
 
-    GridScreen(
-        bookshelfUiState = BookshelfUiState.Success(booksList = sampleBooks, isShowingDetailsBook = false, userGoogleKeyWord = ""),
-        onBookClick = {},
-    )
 }
 
 @Preview(showBackground = true)
