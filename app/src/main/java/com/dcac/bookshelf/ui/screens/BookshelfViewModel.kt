@@ -17,12 +17,13 @@ import kotlinx.coroutines.launch
 import retrofit2.HttpException
 import java.io.IOException
 
+
 class BookshelfViewModel(
     private val bookshelfRepository: BookshelfRepository
-) : ViewModel() {
+) : ViewModel(), IBookshelfViewModel {
 
     private val _uiState = MutableStateFlow<BookshelfUiState>(BookshelfUiState.Loading)
-    val uiState: StateFlow<BookshelfUiState> = _uiState.asStateFlow()
+    override val uiState: StateFlow<BookshelfUiState> = _uiState.asStateFlow()
 
     init {
         initUiState()
@@ -30,22 +31,11 @@ class BookshelfViewModel(
 
     private fun initUiState() {
         viewModelScope.launch {
-            _uiState.value = BookshelfUiState.Loading
-            try {
-                _uiState.value = BookshelfUiState.Success(
-                    userGoogleKeyWord = "",
-                    booksList = emptyList()
-                )
-            } catch (e: IOException) {
-                _uiState.value = BookshelfUiState.Error("Network error, please check your connection.")
-                println("❌ Network error: ${e.message}")
-            } catch (e: HttpException) {
-                _uiState.value = BookshelfUiState.Error("Server error: ${e.code()}")
-                println("❌ HTTP error: ${e.code()}")
-            } catch (e: Exception) {
-                _uiState.value = BookshelfUiState.Error("Unexpected error: ${e.message}")
-                println("❌ Unexpected error: ${e.message}")
-            }
+            _uiState.value = BookshelfUiState.Success(
+                userGoogleKeyWord = "",
+                booksList = emptyList()
+            )
+
         }
     }
 
@@ -59,19 +49,22 @@ class BookshelfViewModel(
                     userGoogleKeyWord = keyWord
                 )
             } catch (e: IOException) {
-                _uiState.value = BookshelfUiState.Error("Network error, please check your connection.")
+                _uiState.value = BookshelfUiState.Error("Network error, please check your connection.",
+                    userGoogleKeyWord = keyWord)
                 println("❌ Network error: ${e.message}")
             } catch (e: HttpException) {
-                _uiState.value = BookshelfUiState.Error("Server error: ${e.code()}")
+                _uiState.value = BookshelfUiState.Error("Server error: ${e.code()}",
+                    userGoogleKeyWord = keyWord)
                 println("❌ HTTP error: ${e.code()}")
             } catch (e: Exception) {
-                _uiState.value = BookshelfUiState.Error("Unexpected error: ${e.message}")
+                _uiState.value = BookshelfUiState.Error("Unexpected error: ${e.message}",
+                    userGoogleKeyWord = keyWord)
                 println("❌ Unexpected error: ${e.message}")
             }
         }
     }
 
-    fun updateCurrentBook(book: Book) {
+    override fun updateCurrentBook(book: Book) {
         if (_uiState.value is BookshelfUiState.Success) {
             _uiState.update {
                 (it as BookshelfUiState.Success).copy(
@@ -82,13 +75,14 @@ class BookshelfViewModel(
         }
     }
 
-    fun retryLoading() {
-        if (_uiState.value is BookshelfUiState.Success) {
-            getBooksList((_uiState.value as BookshelfUiState.Success).userGoogleKeyWord)
+    override fun retryLoading() {
+        if (_uiState.value is BookshelfUiState.Error) {
+            val userGoogleKeyWord = (_uiState.value as BookshelfUiState.Error).userGoogleKeyWord
+            getBooksList(userGoogleKeyWord)
         }
     }
 
-    fun resetHomeScreenStates() {
+    override fun resetHomeScreenStates() {
         if (_uiState.value is BookshelfUiState.Success) {
             _uiState.update {
                 (it as BookshelfUiState.Success).copy(
@@ -99,7 +93,7 @@ class BookshelfViewModel(
         }
     }
 
-    fun updateUserGoogleKeyWord(userGoogleKeyWord: String) {
+    override fun updateUserGoogleKeyWord(userGoogleKeyWord: String) {
         if (_uiState.value is BookshelfUiState.Success) {
             _uiState.update {
                 (it as BookshelfUiState.Success).copy(
@@ -109,7 +103,7 @@ class BookshelfViewModel(
         }
     }
 
-    fun searchBooks(userGoogleKeyWord: String) {
+    override fun searchBooks(userGoogleKeyWord: String) {
         getBooksList(userGoogleKeyWord)
     }
 

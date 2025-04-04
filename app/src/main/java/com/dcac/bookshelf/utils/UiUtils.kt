@@ -8,14 +8,14 @@ fun String?.toHttps(): String? {
     return this?.replace("http://", "https://")
 }
 
-@Composable
+
 fun List<String>?.toDisplayStringAuthors(): String {
-    return this?.joinToString(separator = ", ") ?: stringResource(R.string.no_authors)
+    return this?.joinToString(separator = ", ") ?: R.string.no_authors.toString()
 }
 
-@Composable
+
 fun List<String>?.toDisplayStringCategories(): String {
-    return this?.joinToString(separator = ", ") ?: stringResource(R.string.no_categories)
+    return this?.joinToString(separator = ", ") ?: R.string.no_categories.toString()
 }
 
 /*

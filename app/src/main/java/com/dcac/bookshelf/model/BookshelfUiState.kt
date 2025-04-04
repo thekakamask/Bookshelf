@@ -7,14 +7,14 @@ sealed interface BookshelfUiState {
     @Immutable
     data class Success(
         val booksList: List<Book>,
-        val filteredBooksList: List<Book>? = null,
         val currentBook : Book? = null,
         val isShowingDetailsBook : Boolean = false,
         val userGoogleKeyWord : String
     ) : BookshelfUiState
 
     data class Error (
-        val message : String
+        val message : String,
+        val userGoogleKeyWord: String
     ) : BookshelfUiState
 
     data object Loading : BookshelfUiState

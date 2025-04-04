@@ -2,13 +2,18 @@
 **Bookshelf** is a modern Android application that allows users to search and display a list of books with their images using the Google Books API. The project follows Android development best practices, implementing the MVVM architecture and leveraging tools such as Retrofit, Gson, and Coroutines for efficient network calls and data processing.
 
 ## ✅ **LAST MAJOR UPDATES**
-   - Implemented **InitialScreen** to display welcome message and to permit user to search books from Google Book API with his keywords.
-   - Modified **ViewModel** to launch API request only when user has write keywords and validate.
-   - Implemented **UI transitions** between HomeScreen and DetailsScreen.
+   - Implemented Instrumented tests for UI testing :
+      - AppBar
+      - WelcomeHomeScreen and GridHomeScreen
+      - DetailsScreen 
+   - Created FakeViewmodel, FakeData and FakeUiState for UI testing.
+   - Verified UI content displaying and call to Viewmodel Functions who update the UI. 
+   - Printed HTML UI tests results.
+
 
 ## ❌ **NEXT UPDATES**
-   - Improve error informations.
-   - Make ViewModel and Repository tests.
+   - Make Unit Tests for ViewModel and Repository.
+   - Deploy a signed apk to allow the user to install the application
 
 ## 📋 **Features**
    - 📚 Display a list of books :
@@ -39,8 +44,9 @@
       
    - 🛠 Error Handling & User Feedback:
 
-      - 🟩 **IN PROGRESS** Displays appropriate error messages.
+      - ✅ **DONE** Displays appropriate error messages.
       - ✅ **DONE** Provides loading indicators for better UX.
+      - ✅ **DONE** UI instrumented tests.
       - ❌ **NOT IMPLEMENTEND** ViewModel and Repository tests.
 
 ## 🛠️ **Tech Stack**

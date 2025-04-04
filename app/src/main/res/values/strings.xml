@@ -42,5 +42,13 @@
 
     <string name="retry">Retry loading</string>
     <string name="back_button">Back</string>
+    <string name="image_error">Image error</string>
+    <string name="scroll_left">Scroll left</string>
+    <string name="scroll_right">Scroll right</string>
+    <string name="welcome_logo">Welcome logo</string>
+    <string name="error_text">Error text</string>
+    <string name="loading_indicator">Loading indicator</string>">
+    <string name="outline_text_field">Outline text field</string>
+
 
 </resources>

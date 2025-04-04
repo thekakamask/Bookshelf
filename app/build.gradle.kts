@@ -2,6 +2,8 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.hilt.android)
+    id("org.jetbrains.kotlin.kapt")
 }
 
 android {
@@ -94,6 +96,7 @@ dependencies {
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(platform(libs.androidx.compose.bom))
     androidTestImplementation(libs.androidx.ui.test.junit4)
+    androidTestImplementation(libs.androidx.ui.test.junit4.android)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
 
@@ -105,4 +108,22 @@ dependencies {
     androidTestImplementation(libs.androidx.espresso.intents)
     //Adds utilities for testing coroutine behavior and managing threading in unit tests.
     testImplementation(libs.kotlinx.coroutines.test)
+
+    //This library lets you create dummy objects (mocks), simulate their behavior and check interactions
+    // in pure Java/Kotlin tests (outside Android). It only works in tests running on the JVM, not on an Android device.
+    testImplementation(libs.mockito.core)
+    // Allows you to use Mockito with inline mocking, notably for final objects, final methods, Kotlin objects, etc.
+    //By default, Mockito cannot mock certain Kotlin elements (such as val, object, etc.), but this lib enables
+    // advanced Kotlin bytecode support via the “inline” agent. Very useful in classic JVM testing, but useless in instrumentation testing.
+    testImplementation(libs.mockito.inline)
+
+    // Hilt's main library for injecting dependencies into your code (Activity, ViewModel, etc.).
+    implementation(libs.hilt.android)
+
+    // Annotation processor to automatically generate Hilt's injection code (required for @Inject, @HiltViewModel, etc.).
+    kapt(libs.hilt.compiler)
+
+    // Special version of Hilt for instrumented tests: allows you to inject fakes or mocks into Android tests (in androidTest/).
+    androidTestImplementation(libs.hilt.android.testing)
+
 }
