@@ -20,6 +20,8 @@ import java.io.IOException
 
 class BookshelfViewModel(
     private val bookshelfRepository: BookshelfRepository
+    //for unit testing
+    //var bookshelfRepository: BookshelfRepository
 ) : ViewModel(), IBookshelfViewModel {
 
     private val _uiState = MutableStateFlow<BookshelfUiState>(BookshelfUiState.Loading)

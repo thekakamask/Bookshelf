@@ -109,6 +109,9 @@ dependencies {
     //Adds utilities for testing coroutine behavior and managing threading in unit tests.
     testImplementation(libs.kotlinx.coroutines.test)
 
+    testImplementation(libs.turbine)
+
+
     //This library lets you create dummy objects (mocks), simulate their behavior and check interactions
     // in pure Java/Kotlin tests (outside Android). It only works in tests running on the JVM, not on an Android device.
     testImplementation(libs.mockito.core)

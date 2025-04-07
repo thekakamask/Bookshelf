@@ -10,6 +10,8 @@ import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.performScrollToNode
 import com.dcac.bookshelf.fakeDataAndUtils.FakeBookshelfViewModel
 import com.dcac.bookshelf.fakeDataAndUtils.FakeData.fakeDetailsSuccessBookshelfUiState
+import com.dcac.bookshelf.rules.onNodeWithStringId
+import com.dcac.bookshelf.rules.onNodeWithTagValue
 import com.dcac.bookshelf.ui.screens.DetailsHomeScreen
 import org.junit.Rule
 import org.junit.Test

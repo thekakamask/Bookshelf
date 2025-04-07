@@ -12,6 +12,8 @@ import com.dcac.bookshelf.fakeDataAndUtils.FakeData.fakeGridSuccessBookshelfUiSt
 import com.dcac.bookshelf.fakeDataAndUtils.FakeData.fakeInitialSuccessBookshelfUiState
 import com.dcac.bookshelf.fakeDataAndUtils.FakeData.fakeLoadingBookshelfUiState
 import com.dcac.bookshelf.model.BookshelfUiState
+import com.dcac.bookshelf.rules.onNodeWithContentDescriptionForStringId
+import com.dcac.bookshelf.rules.onNodeWithStringId
 import com.dcac.bookshelf.ui.screens.BookshelfTopBar
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull

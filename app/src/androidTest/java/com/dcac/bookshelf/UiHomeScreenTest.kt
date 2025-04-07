@@ -17,6 +17,11 @@ import com.dcac.bookshelf.fakeDataAndUtils.FakeData.fakeErrorBookshelfUiState
 import com.dcac.bookshelf.fakeDataAndUtils.FakeData.fakeGridSuccessBookshelfUiState
 import com.dcac.bookshelf.fakeDataAndUtils.FakeData.fakeInitialSuccessBookshelfUiState
 import com.dcac.bookshelf.model.BookshelfUiState
+import com.dcac.bookshelf.rules.onAllNodesWithTagPrefix
+import com.dcac.bookshelf.rules.onNodeWithContentDescriptionForStringId
+import com.dcac.bookshelf.rules.onNodeWithStringId
+import com.dcac.bookshelf.rules.onNodeWithTagForStringId
+import com.dcac.bookshelf.rules.onNodeWithTagValue
 import com.dcac.bookshelf.ui.screens.ErrorHomeScreen
 import com.dcac.bookshelf.ui.screens.LoadingHomeScreen
 import com.dcac.bookshelf.ui.screens.SuccessHomeScreen

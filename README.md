@@ -2,18 +2,12 @@
 **Bookshelf** is a modern Android application that allows users to search and display a list of books with their images using the Google Books API. The project follows Android development best practices, implementing the MVVM architecture and leveraging tools such as Retrofit, Gson, and Coroutines for efficient network calls and data processing.
 
 ## ✅ **LAST MAJOR UPDATES**
-   - Implemented Instrumented tests for UI testing :
-      - AppBar
-      - WelcomeHomeScreen and GridHomeScreen
-      - DetailsScreen 
-   - Created FakeViewmodel, FakeData and FakeUiState for UI testing.
-   - Verified UI content displaying and call to Viewmodel Functions who update the UI. 
-   - Printed HTML UI tests results.
-
+   - Made Unit tests for the ViewModel and the Repository
+      - created fake data ,fake repository and fake API service for unit testing.
+   - Deployed Signed APK for install the application in release mode.
 
 ## ❌ **NEXT UPDATES**
-   - Make Unit Tests for ViewModel and Repository.
-   - Deploy a signed apk to allow the user to install the application
+   - This project is now finish.
 
 ## 📋 **Features**
    - 📚 Display a list of books :
@@ -47,7 +41,7 @@
       - ✅ **DONE** Displays appropriate error messages.
       - ✅ **DONE** Provides loading indicators for better UX.
       - ✅ **DONE** UI instrumented tests.
-      - ❌ **NOT IMPLEMENTEND** ViewModel and Repository tests.
+      - ✅ **DONE** ViewModel and Repository tests.
 
 ## 🛠️ **Tech Stack**
    - **Kotlin**: Modern, concise language for Android development.
@@ -60,10 +54,19 @@
    - **Coil**: Download, buffer, decode and cache images
    - **Gson**: Parse JSON responses.
    - **Google Books API** : Use this API for retrieve books from internet.
+   - **JUnit 4/5**: Write and run unit tests.
+   - **Turbine**: Test Kotlin Flow and StateFlow emissions.
+   - **Kotlin Coroutines Test**: Control coroutine dispatchers during tests.
+   - **Mock implementations**: Fake repository and data sources to simulate different states (success, error).
+   - **Compose Testing**: Instrumentation tests for Compose UI using AndroidComposeTestRule.
+   - **Test Rules**: Custom rules like TestDispatcherRule to control coroutine dispatchers in tests.
+   - **Test Tags & String Res Helpers**: Extension functions to simplify Compose test node selection.
    
 ## 🚀 **How to Use**
 1. **Launch the App**:
-   - Download the code and launch the app on an Android device or emulator. (Bad performance because in Debug Build Variant)
+   - Download the "app-release.apk" file find in \app\release\ .
+   - Install the file in your smartphone or in an emulator. (Good performance because in Release Build Variant)
+   - If you want to use android studio, download the code and launch the app on an Android device or emulator. (Bad performance because in Debug Build Variant)
 2. **Use Google Book API on the InitialScreen**:
    - Read the welcoming message.
    - Tap the keywords of your choice in the text field and validate to launch the API request to display a list of books from Google Book.
