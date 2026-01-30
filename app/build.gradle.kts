@@ -1,3 +1,6 @@
+import java.util.Properties
+import java.io.FileInputStream
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -5,6 +8,13 @@ plugins {
     alias(libs.plugins.hilt.android)
     id("org.jetbrains.kotlin.kapt")
 }
+
+
+val localProperties = Properties().apply {
+    load(FileInputStream(File(rootDir, "local.properties")))
+}
+val booksApiKey = localProperties.getProperty("BOOKS_API_KEY")
+    ?: throw GradleException("BOOKS_API_KEY not found in local.properties")
 
 android {
     namespace = "com.dcac.bookshelf"
@@ -16,8 +26,10 @@ android {
         targetSdk = 35
         versionCode = 1
         versionName = "1.0"
+        manifestPlaceholders["BOOKS_API_KEY"] = booksApiKey
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        buildConfigField("String", "BOOKS_API_KEY", "\"$booksApiKey\"")
         vectorDrawables {
             useSupportLibrary = true
         }
@@ -41,6 +53,7 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig=true
     }
     composeOptions {
         kotlinCompilerExtensionVersion = "1.5.1"
